@@ -1,5 +1,5 @@
-# Copyright (C) Fabulously Optimized 2022
-# Licensed under the MIT License. The full license text can be found at https://github.com/Fabulously-Optimized/vanilla-installer/blob/main/LICENSE.md.
+# Copyright (C) Herobrine.fr Optimized 2022
+# Licensed under the MIT License. The full license text can be found at https://github.com/Herobrine.fr-Optimized/vanilla-installer/blob/main/LICENSE.md.
 """A CLI interface for VanillaInstaller."""
 ## Imports
 
@@ -26,7 +26,7 @@ async def vanilla_installer():
 
 
 @vanilla_installer.command(
-    "install", help="Install Fabulously Optimized to the specified directory."
+    "install", help="Install Herobrine.fr Optimized to the specified directory."
 )
 @click.option(
     "--minecraft-dir",
@@ -38,7 +38,7 @@ async def vanilla_installer():
     "--version",
     "-v",
     "version",
-    help="The version of Minecraft to install Fabulously Optimized for. Defaults to the latest FO supports.",
+    help="The version of Minecraft to install Herobrine.fr Optimized for. Defaults to the latest FO supports.",
 )
 @click.option(
     "--java-version",
@@ -96,7 +96,7 @@ async def bug():
     if user_input is not None:
         try:
             await webbrowser.open(
-                "https://github.com/Fabulously-Optimized/vanilla-installer/issues/new?labels=bug&template=bug.yml&title=%5BBug%5D%3A+"
+                "https://github.com/Herobrine.fr-Optimized/vanilla-installer/issues/new?labels=bug&template=bug.yml&title=%5BBug%5D%3A+"
             )
         except TypeError:
             pass
@@ -111,7 +111,7 @@ async def feature():
     if user_input is not None:
         try:
             await webbrowser.open(
-                "https://github.com/Fabulously-Optimized/vanilla-installer/issues/new?labels=enhancement&template=enhancement.yml&title=%5BFeature+Request%5D%3A+"
+                "https://github.com/Herobrine.fr-Optimized/vanilla-installer/issues/new?labels=enhancement&template=enhancement.yml&title=%5BFeature+Request%5D%3A+"
             )
         except TypeError:
             pass
@@ -120,7 +120,7 @@ async def feature():
 @about.command("licensing", help="Shows licensing details on the program.")
 async def licensing():
     click.echo(
-        "VanillaInstaller is licensed under the MIT License.\nLicensed works, modifications, and larger works may be distributed under different terms and without source code.\nFor the full text, please see https://github.com/Fabulously-Optimized/vanilla-installer/blob/main/LICENSE.md.\nFor more about open-source licenses, see https://choosealicense.com."
+        "VanillaInstaller is licensed under the MIT License.\nLicensed works, modifications, and larger works may be distributed under different terms and without source code.\nFor the full text, please see https://github.com/Herobrine.fr-Optimized/vanilla-installer/blob/main/LICENSE.md.\nFor more about open-source licenses, see https://choosealicense.com."
     )
 
 

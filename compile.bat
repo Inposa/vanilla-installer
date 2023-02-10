@@ -1,0 +1,1 @@
+python -m nuitka --standalone --onefile --windows-icon-from-ico=media/icon.ico --include-package=minecraft_launcher_lib,PySide6,click,tomli,darkdetect -o "HO.exe" --enable-plugin=pyside6 --include-data-dir=vanilla_installer/assets=assets/ --disable-console --nofollow-import-to=PySide6.examples vanilla_installer/gui.py

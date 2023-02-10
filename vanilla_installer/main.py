@@ -1,5 +1,5 @@
-# Copyright (C) Fabulously Optimized 2022
-# Licensed under the MIT License. The full license text can be found at https://github.com/Fabulously-Optimized/vanilla-installer/blob/main/LICENSE.md.
+# Copyright (C) Herobrine.fr Optimized 2022
+# Licensed under the MIT License. The full license text can be found at https://github.com/Herobrine.fr-Optimized/vanilla-installer/blob/main/LICENSE.md.
 """
 Most important functions of VanillaInstaller.
 """
@@ -167,7 +167,7 @@ def get_java(java_ver: float = 17.3) -> str:
 
 
 def fo_to_base64(png_dir: str = ".") -> str:
-    """Converts the Fabulously Optimized logo from PNG format into base64.
+    """Converts the Herobrine.fr Optimized logo from PNG format into base64.
     The directory specified in `dir` will be searched. If that fails, FO logo will be downloaded over the network.
 
     Args:
@@ -278,7 +278,7 @@ def download_pack(widget, interface: str = "GUI") -> str:
     Returns:
         str: The path to the packwiz_installer_bootstrap.jar.
     """
-    text_update(f"Fetching Pack...", widget=widget, interface=interface)
+    text_update(f"Download packwiz installer...", widget=widget, interface=interface)
     download_bootstrap = requests.get(
         "https://github.com/packwiz/packwiz-installer-bootstrap/releases/latest/download/packwiz-installer-bootstrap.jar"
     )
@@ -288,6 +288,7 @@ def download_pack(widget, interface: str = "GUI") -> str:
     packwiz_installer_bootstrap_path = (
         Path(get_dir()) / "packwiz-installer-bootstrap.jar"
     )
+    text_update(f"Downloaded packwiz installer", widget=widget, interface=interface)
     return str(packwiz_installer_bootstrap_path)
 
 
@@ -299,7 +300,7 @@ def install_pack(
     interface: str = "GUI",
     java_ver: float = 17.3,
 ) -> None:
-    """Installs Fabulously Optimized.
+    """Installs Herobrine.fr Optimized.
 
     Args:
         packwiz_installer_bootstrap (str): The path to the packwiz installer bootstrap.
@@ -311,24 +312,28 @@ def install_pack(
     logger.debug("Installing the pack now.")
     os.chdir(mc_dir)
     os.makedirs(f"{get_dir()}/", exist_ok=True)
-    pack_toml = convert_version(mc_version)
+    text_update("Get modpack from version...", widget=widget, interface=interface)
+    pack_toml = convert_version(mc_version, widget=widget, interface=interface)
+    text_update(
+        "Installing Herobrine.fr Optimized...", widget=widget, interface=interface
+    )
     try:
         ran = command(
             f"{get_java(java_ver)} -jar {packwiz_installer_bootstrap} {pack_toml}"
         )
         logger.info(
-            f"Completed installing Fabulously Optimized for Minecraft {mc_version}"
+            f"Completed installing Herobrine.fr Optimized for Minecraft {mc_version}"
         )
         text_update(
-            f"Installed Fabulously Optimized for Minecraft {mc_version}.",
+            f"Installed Herobrine.fr Optimized for Minecraft {mc_version}.",
             widget,
             "success",
             interface=interface,
         )
     except Exception as e:
-        logger.exception(f"Could not install Fabulously Optimized: {e}")
+        logger.exception(f"Could not install Herobrine.fr Optimized: {e}")
         text_update(
-            f"Could not install Fabulously Optimized: {e}",
+            f"Could not install Herobrine.fr Optimized: {e}",
             widget,
             "error",
             interface=interface,
@@ -353,7 +358,7 @@ def create_profile(mc_dir: str, version_id: str) -> None:
 
     profile = {
         "lastVersionId": version_id,
-        "name": "Fabulously Optimized",
+        "name": "Herobrine.fr Optimized",
         "type": "custom",
         "icon": fo_to_base64(),
         "gameDir": mc_dir,  # Not sure about this
@@ -372,7 +377,7 @@ def get_pack_mc_versions() -> dict:
     try:
         try:
             response = requests.get(
-                "https://raw.githubusercontent.com/Fabulously-Optimized/vanilla-installer/main/vanilla_installer/assets/versions.json"
+                "https://raw.githubusercontent.com/Herobrine.fr-Optimized/vanilla-installer/main/vanilla_installer/assets/versions.json"
             ).json()
         except requests.exceptions.RequestException or response.status_code != "200":
             # This should never happen unless a) there's no internet connection, b) the file was deleted or is missing in a development case.
@@ -418,7 +423,7 @@ def run(
     widget=None,
 ) -> None:
 
-    """Runs Fabric's installer and then installs Fabulously Optimized.
+    """Runs Fabric's installer and then installs Herobrine.fr Optimized.
 
     Args:
         widget (optional): The widget to update. This is only used when interface is set to GUI. Defaults to None.
@@ -426,40 +431,46 @@ def run(
         version (str, optional): The version to install. Defaults to the newest version
         interface (str, optional): The interface to use, either CLI or GUI. Defaults to "GUI".
     """
-    logger.debug("Install function called, setting given directory.")
-    set_dir(mc_dir)
+    try:
+        logger.debug("Install function called, setting given directory.")
+        set_dir(mc_dir)
 
-    if not Path(mc_dir).resolve().exists():
-        logger.warning("Given path did not exist; creating.")
-        Path(mc_dir).resolve().mkdir()
+        if not Path(mc_dir).resolve().exists():
+            logger.warning("Given path did not exist; creating.")
+            Path(mc_dir).resolve().mkdir()
 
-    if version is None:
-        # the default version is set here instead of an argument because it slows down the startup
-        # (by about ~0.05 seconds in my testing. but it might vary based on internet speeds)
-        logger.warning("Version was not passed, defaulting to the latest version.")
-        version = newest_version()
-    logger.info("Calling install_fabric to install Fabric.")
-    text_update("Installing Fabric...", widget=widget, interface=interface)
-    fabric_version = install_fabric(version, mc_dir)
-    logger.debug("Downloading FO - calling download_pack.")
-    text_update(
-        "Starting the Fabulously Optimized download...",
-        widget=widget,
-        interface=interface,
-    )
-    packwiz_bootstrap = download_pack(widget=widget, interface=interface)
-    logger.info("Installing FO, Packwiz will run.")
-    text_update(
-        "Installing Fabulously Optimized...", widget=widget, interface=interface
-    )
-    install_pack(
-        mc_version=version,
-        packwiz_installer_bootstrap=packwiz_bootstrap,
-        mc_dir=mc_dir,
-        java_ver=java_ver,
-    )
-    logger.info("Setting the profile.")
-    text_update("Setting profiles...", widget=widget, interface=interface)
-    create_profile(mc_dir, fabric_version)
-    text_update("Complete!", widget=widget, interface=interface)
-    logger.info("Success!")
+        if version is None:
+            # the default version is set here instead of an argument because it slows down the startup
+            # (by about ~0.05 seconds in my testing. but it might vary based on internet speeds)
+            logger.warning("Version was not passed, defaulting to the latest version.")
+            version = newest_version()
+        logger.info("Calling install_fabric to install Fabric.")
+        text_update("Installing Fabric...", widget=widget, interface=interface)
+        fabric_version = install_fabric(version, mc_dir)
+        logger.debug("Downloading FO - calling download_pack.")
+        text_update(
+            "Starting the Herobrine.fr Optimized download...",
+            widget=widget,
+            interface=interface,
+        )
+        packwiz_bootstrap = download_pack(widget=widget, interface=interface)
+        logger.info("Installing FO, Packwiz will run.")
+        install_pack(
+            mc_version=version,
+            packwiz_installer_bootstrap=packwiz_bootstrap,
+            mc_dir=mc_dir,
+            java_ver=java_ver,
+        )
+        logger.info("Setting the profile.")
+        text_update("Setting profiles...", widget=widget, interface=interface)
+        create_profile(mc_dir, fabric_version)
+        text_update("Complete!", widget=widget, interface=interface)
+        logger.info("Success!")
+    except Exception as e:
+        logger.exception(f"Could not install Herobrine.fr Optimized: {e}")
+        text_update(
+            f"Could not install Herobrine.fr Optimized: {e}",
+            widget,
+            "error",
+            interface=interface,
+        )

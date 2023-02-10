@@ -1,5 +1,5 @@
-# Copyright (C) Fabulously Optimized 2022
-# Licensed under the MIT License. The full license text can be found at https://github.com/Fabulously-Optimized/vanilla-installer/blob/main/LICENSE.md.
+# Copyright (C) Herobrine.fr Optimized 2022
+# Licensed under the MIT License. The full license text can be found at https://github.com/Herobrine.fr-Optimized/vanilla-installer/blob/main/LICENSE.md.
 """Runs the GUI for VanillaInstaller."""
 # IMPORTS
 import pathlib
@@ -146,7 +146,7 @@ class Ui_MainWindow(object):
         self.infoButton.setFlat(True)
         self.infoButton.clicked.connect(
             lambda: webbrowser.open(
-                "https://github.com/Fabulously-Optimized/vanilla-installer/"
+                "https://github.com/Herobrine.fr-Optimized/vanilla-installer/"
             )
         )
         self.infoButtonIcon = QSvgWidget(
@@ -160,7 +160,7 @@ class Ui_MainWindow(object):
         self.issuesButton.setFlat(True)
         self.issuesButton.clicked.connect(
             lambda: webbrowser.open(
-                "https://github.com/Fabulously-Optimized/vanilla-installer/issues"
+                "https://github.com/Herobrine.fr-Optimized/vanilla-installer/issues"
             )
         )
         self.issuesButtonIcon = QSvgWidget(
@@ -205,7 +205,7 @@ class Ui_MainWindow(object):
             QCoreApplication.translate("MainWindow", "Vanilla Installer", None)
         )
         self.title.setText(
-            QCoreApplication.translate("MainWindow", "Fabulously Optimized", None)
+            QCoreApplication.translate("MainWindow", "Herobrine.fr - Optimized", None)
         )
         self.subtitle.setText(
             QCoreApplication.translate("MainWindow", "Vanilla Installer", None)
