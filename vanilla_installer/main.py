@@ -179,11 +179,11 @@ def fo_to_base64(png_dir: str = ".") -> str:
     dir_path = Path(png_dir)
     png_content = bytes()
 
-    if (png_path := dir_path / "fo.png").exists():
+    if (png_path := dir_path / "ho.png").exists():
         png_content = png_path.read_bytes()
     else:
         logger.warning("Cannot find logo locally. Trying to download...")
-        url = "https://avatars.githubusercontent.com/u/92206402"
+        url = "https://avatars.githubusercontent.com/u/97618504"
         if (response := requests.get(url)).status_code == 200:
             png_content = response.content
         else:
@@ -313,7 +313,7 @@ def install_pack(
     os.chdir(mc_dir)
     os.makedirs(f"{get_dir()}/", exist_ok=True)
     text_update("Get modpack from version...", widget=widget, interface=interface)
-    pack_toml = convert_version(mc_version, widget=widget, interface=interface)
+    pack_toml = convert_version(mc_version)
     text_update(
         "Installing Herobrine.fr Optimized...", widget=widget, interface=interface
     )
@@ -377,7 +377,7 @@ def get_pack_mc_versions() -> dict:
     try:
         try:
             response = requests.get(
-                "https://raw.githubusercontent.com/Herobrine.fr-Optimized/vanilla-installer/main/vanilla_installer/assets/versions.json"
+                "https://raw.githubusercontent.com/HB-Modding-Crew/vanilla-installer/main/vanilla_installer/assets/versions.json"
             ).json()
         except requests.exceptions.RequestException or response.status_code != "200":
             # This should never happen unless a) there's no internet connection, b) the file was deleted or is missing in a development case.

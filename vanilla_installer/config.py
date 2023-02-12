@@ -25,7 +25,7 @@ def init():
     # maybe call darkdetect from here?
     # might want to just leave this alone to be
     config.add("theme", "dark")
-    config.add("path", mll.utils.get_minecraft_directory())
+    config.add("path", mll.utils.get_minecraft_directory() + os.sep + "HO")
     if platform.system() == "Windows":
         font = "Inter Regular"
     else:
