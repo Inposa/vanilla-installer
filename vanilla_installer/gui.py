@@ -337,9 +337,7 @@ class Ui_MainWindow(object):
         dialog.setFileMode(QFileDialog.FileMode.Directory)
         current_path = pathlib.Path(self.selectedLocation.toPlainText()).absolute()
         if not current_path.exists():
-            current_path = (
-                pathlib.Path(mll.utils.get_minecraft_directory()).absolute().mkdir()
-            )
+            current_path.mkdir()
         dialog.setDirectory(str(current_path))
         config.write("path", str(current_path))
         if dialog.exec():
