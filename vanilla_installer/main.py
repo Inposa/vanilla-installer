@@ -365,7 +365,7 @@ def create_profile(mc_dir: str, version_id: str) -> None:
         # "javaArgs": "I dunno if fabric installer sets any javaArgs by itself"
     }
 
-    profiles["profiles"]["FO"] = profile
+    profiles["profiles"]["HO"] = profile
     profiles_json = json.dumps(profiles, indent=4)
     launcher_profiles_path.write_text(profiles_json)
 
